@@ -63,6 +63,7 @@ bool read_file(char* file_name) {
     //Construye el path
     char* name_dir = "/home/aduarte/CLionProjects/PasswordDecoder/lists/";
     char* path = malloc(strlen(name_dir)+1+11);
+    char* password = malloc(sizeof(char)*4);
     strcpy(path, name_dir);
     strcat(path, file_name);
     bool found = false;
@@ -78,13 +79,14 @@ bool read_file(char* file_name) {
     while ((fgets(buf, sizeof(buf), fp) != NULL) && !found) {
         buf[strlen(buf) - 1] = '\0';
 
-        if(find_password(buf) == 0) {
+        if(find_password(buf) == 1) {
+            strcpy(password, buf);
             found = true;
         }
     }
 
     if(found) {
-        printf("Password found: %s\n", buf);
+        printf("Password found: %s\n", password);
     } else {
         printf("Sorry, password not found.\n");
     }
@@ -109,10 +111,9 @@ int find_password(char* word) {
         found = -1;
     }
 
-    while (fgets(buf, BUF_SIZE, fp) != NULL) {
+    while (fgets(buf, BUF_SIZE, fp) != NULL && found == 0) {
         buf[strlen(buf) - 1] = '\0';
-        if((strcmp("$1$SALt$SpP1SODdB0LcF8YV4fy51/", buf) == 0)) {
-            printf("OUTPUT: %s\n", buf);
+        if((strcmp("$1$SALt$.3QJjMGNt0dIcUC06TXYc1", buf) == 0)) {
             found = 1;
         }
     }
