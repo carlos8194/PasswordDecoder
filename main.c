@@ -1,10 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <sys/types.h>
 #include <dirent.h>
 #include <string.h>
-#include <unistd.h>
 #include <stdbool.h>
+#include <openssl/md5.h>
 
 void open_directory();
 char* read_file(char* file_name);
@@ -31,7 +30,7 @@ void open_directory() {
     bool found = false; //Condicion de parada
     char* password; //Donde se guarda la palabra encontrada
 
-    while (((ent = readdir (dir)) != NULL )&& !found)
+    while (((ent = readdir(dir)) != NULL) && !found)
     {
         /* Devolverá directorio actual (.) y el anterior (..)*/
         if ( (strcmp(ent->d_name, ".") != 0) && (strcmp(ent->d_name, "..") != 0) )
@@ -62,7 +61,7 @@ char* read_file(char* file_name) {
     strcat(path, file_name);
 
     bool found = false; //Condición de parada
-    char* password = malloc(sizeof(char)*4);
+    char* password = malloc(sizeof(char)*15); //Password max size 15 characters
     strcpy(password, "-1"); //Inicializa el valor
 
     FILE* fp;
