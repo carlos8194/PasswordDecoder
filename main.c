@@ -23,7 +23,7 @@ void open_directory() {
     DIR *dir;
     struct dirent *ent;
 
-    dir = opendir ("/home/aduarte/CLionProjects/PasswordDecoder/lists"); //Abre directorio TODO Hacerlo para cualquier dir
+    dir = opendir("lists"); //Abre directorio TODO Hacerlo para cualquier dir
 
     if (dir == NULL)
         error("lists.");
@@ -34,7 +34,7 @@ void open_directory() {
     while (((ent = readdir (dir)) != NULL )&& !found)
     {
         /* Devolverá directorio actual (.) y el anterior (..)*/
-        if ( (strcmp(ent->d_name, ".")!=0) && (strcmp(ent->d_name, "..")!=0) )
+        if ( (strcmp(ent->d_name, ".") != 0) && (strcmp(ent->d_name, "..") != 0) )
         {
             password = read_file(ent->d_name); //Llama a leer archivo actual
             if(strcmp(password,"-1") != 0) { //Si la encuentra se detiene
@@ -56,7 +56,7 @@ void open_directory() {
 //-1 es que no encontró el password. Caso conrario se devuelve la palabra que hizo match.
 char* read_file(char* file_name) {
     //Construye el path
-    char* name_dir = "/home/aduarte/CLionProjects/PasswordDecoder/lists/";
+    char* name_dir = "lists/";
     char* path = malloc(strlen(name_dir)+100);
     strcpy(path, name_dir);
     strcat(path, file_name);
@@ -75,17 +75,13 @@ char* read_file(char* file_name) {
 
     while ((fgets(buf, sizeof(buf), fp) != NULL) && !found) {
         buf[strlen(buf) - 1] = '\0';
-
         if(find_password(buf) == 1) { //Guarda palabra
             strcpy(password, buf);
             found = true;
         }
     }
-
     fclose(fp);
-
     free(path);
-
     return password;
 }
 
@@ -119,7 +115,6 @@ int find_password(char* word) {
     }
 
     free(cmd);
-
     return found;
 }
 
